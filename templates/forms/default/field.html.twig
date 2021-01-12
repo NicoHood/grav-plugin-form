@@ -19,11 +19,7 @@
     {% endif %}
 
     {% set cookie_name = 'forms-' ~ form.name ~ '-' ~ field.name %}
-    {% set value = value ?? get_cookie(cookie_name) %}
-    {% set has_value = value is not same as(null) %}
-    {% if not has_value %}
-        {% set value = default %}
-    {% endif %}
+    {% set value = value ?? (get_cookie(cookie_name) is not null ? get_cookie(cookie_name) : default) %}
 
     {% if (field.yaml or field.validate.type == 'yaml') and value is iterable %}
         {% set value = value|toYaml %}
